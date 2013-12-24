@@ -1,0 +1,38 @@
+upstream  <%= @nodename %>_backend {
+  server  unix:/tmp/thin.0.sock;
+  server  unix:/tmp/thin.1.sock;
+  server  unix:/tmp/thin.2.sock;
+  server  unix:/tmp/thin.3.sock;
+}
+
+server {
+  listen 80;
+  server_name <%= @public_hostname %>;
+  proxy_set_header Host <%= @public_hostname %>;
+
+  location / {
+      rewrite ^(.*)$ https://<%= @public_hostname %>$1 permanent;
+  }
+}
+
+
+server {
+  listen 443;
+  server_name <%= @public_hostname %>;
+
+  access_log  /logs/nginx/<%= @nodename %>/<%= @nodename %>.access.log;
+  error_log   /logs/nginx/<%= @nodename %>/<%= @nodename %>.error.log;
+
+
+  include proxy.inc;
+ 
+  root /opt/invoices/app/public;
+
+  location / {
+    try_files $uri/maintenance.html $uri.html $uri @cluster;
+  }
+
+  location @cluster {
+    proxy_pass http://<%= @nodename %>_backend;
+  }
+}

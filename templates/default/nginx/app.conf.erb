@@ -1,0 +1,56 @@
+upstream  <%= @env %>_backend {
+  server  unix:/tmp/thin.0.sock;
+  server  unix:/tmp/thin.1.sock;
+  server  unix:/tmp/thin.2.sock;
+  server	unix:/tmp/thin.3.sock;
+}
+
+server {
+  listen 80;
+  server_name <%= @public_hostname %>;
+  proxy_set_header Host <%= @public_hostname %>;
+  location / {
+      rewrite ^(.*)$ https://<%= @public_hostname %>$1 permanent;
+  }
+}
+
+
+server {
+  listen 443;
+  server_name <%= @public_hostname %>;
+  access_log  /logs/nginx/<%= @nodename %>/<%= @nodename %>.access.log;
+  error_log   /logs/nginx/<%= @nodename %>/<%= @nodename %>.error.log;
+
+  include proxy.inc;
+
+  set_real_ip_from   <%= @balancer_ip %>;
+  real_ip_header    X-Forwarded-For;
+ 
+  root <%= @project_dir %>/public;
+
+  error_page 503 @maintenance;
+  error_page 502 @maintenance;
+
+  location ~* ^/assets/ {
+    root <%= @project_dir %>/public;
+    access_log off;
+    log_not_found off;
+    expires max;
+    add_header Cache-Control public;
+    add_header Last-Modified "";
+    add_header ETag "";
+    break;
+  }
+
+  location @maintenance {
+    rewrite ^(.*)$ /maintenance.html break;
+  }
+
+  location / {
+    try_files $uri/maintenance.html $uri.html $uri @cluster;
+  }
+
+  location @cluster {
+  	proxy_pass http://<%= @env %>_backend;
+	}
+}

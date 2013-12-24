@@ -1,0 +1,8 @@
+# Ignore
+templates/default/nginx/development/ssl.crt.erb
+templates/default/nginx/production/ssl.crt.erb
+templates/default/nginx/development/ssl.key.erb
+templates/default/nginx/production/ssl.key.erb
+templates/default/nginx/ssl.key.key.erb
+templates/default/nginx/ssl.crt.key.erb
+
