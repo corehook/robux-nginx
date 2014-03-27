@@ -1,0 +1,6 @@
+[
+  {"name":"Переустановить и перезапустить.","recipe_name":"_reinstall","description":"Удаление. Установка. Запуск nginx на основе аттрибутов экземпляра"},
+  {"name":"Остановить","recipe_name":"stop","description":"Остановить nginx"},
+  {"name":"Запустить","recipe_name":"start","description":"Запустить nginx"},
+  {"name":"Перезапустить","recipe_name":"start","description":"Перезагрузить nginx"}
+]
