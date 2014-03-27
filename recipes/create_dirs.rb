@@ -1,4 +1,5 @@
 # CREATE DIRS
+# /logs/nginx/#{hostname}
 directory "#{node.nginx.dirs.logs}/#{node.nodename}" do
   owner node.nginx.user
   group node.nginx.group
@@ -7,6 +8,7 @@ directory "#{node.nginx.dirs.logs}/#{node.nodename}" do
   action :create
 end
 
+# /etc/nginx/ssl/
 directory "#{node.nginx.dirs.ssl}" do
   owner node.nginx.user
   group node.nginx.group

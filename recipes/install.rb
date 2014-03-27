@@ -1,5 +1,3 @@
-include_recipe "robux-nginx::remove"
-
 # install nginx 1.4.1 version to server
 bash "add nginx repo and gpg key to system" do
   code <<-EOC

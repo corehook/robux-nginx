@@ -1,5 +1,5 @@
 include_recipe "robux-nginx::create_dirs"
-include_recipe "robux-nginx::write_ssl_keys"
+
 
 bash "remove default configs from conf.d" do 
   code <<-EOC
