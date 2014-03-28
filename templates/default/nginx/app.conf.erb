@@ -20,11 +20,6 @@ server {
   error_page 503 @maintenance;
   error_page 502 @maintenance;
 
-  location / {
-      rewrite ^(.*)$ https://<%= @public_hostname %>$1 permanent;
-  }
-
-
   location ~* ^/assets/ {
     root <%= @project_dir %>/public;
     access_log off;

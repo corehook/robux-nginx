@@ -1,11 +1,5 @@
 include_recipe "robux-nginx::create_dirs"
-
-
-bash "remove default configs from conf.d" do 
-  code <<-EOC
-    rm -rf #{node.nginx.dirs.conf_dir}/*
-  EOC
-end
+include_recipe "robux-nginx::remove_config"
 
 nginx_conf = "#{node.nginx.dirs.base_dir}/#{node.nginx.tpl.nginx.dst}"
 nginx_conf_src = "#{node.nginx.tpl.nginx.src}"
@@ -35,7 +29,7 @@ template "#{node.nginx.dirs.base_dir}/proxy.inc" do
   mode 0775
 end
 
-template "#{node.nginx.dirs.conf_dir}/#{node.nginx.tpl.app.dst}" do
+template "#{node.nginx.dirs.conf_dir}/#{node.hostnamed}" do
   source "#{node.nginx.tpl.app.src}"
   owner node.nginx.user
   group node.nginx.group
