@@ -10,6 +10,9 @@ bash "add nginx repo and gpg key to system" do
   EOC
 end
 
-package "nginx"
+package "nginx" do
+  action :install
+  options "--force-yes -y"
+end
 
 include_recipe "robux-nginx::write_config"
