@@ -29,7 +29,7 @@ template "#{node.nginx.dirs.base_dir}/proxy.inc" do
   mode 0775
 end
 
-template "#{node.nginx.dirs.conf_dir}/#{node.hostname}" do
+template "#{node.nginx.dirs.conf_dir}/#{node.nodename}.conf" do
   source "#{node.nginx.tpl.app.src}"
   owner node.nginx.user
   group node.nginx.group
