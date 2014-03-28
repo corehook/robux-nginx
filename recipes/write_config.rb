@@ -1,5 +1,5 @@
 include_recipe "robux-nginx::create_dirs"
-include_recipe "robux-nginx::remove_config"
+include_recipe "robux-nginx::remove_configs"
 
 nginx_conf = "#{node.nginx.dirs.base_dir}/#{node.nginx.tpl.nginx.dst}"
 nginx_conf_src = "#{node.nginx.tpl.nginx.src}"
